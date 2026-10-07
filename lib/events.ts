@@ -1,5 +1,5 @@
 import { eventSchema, type EventConfig } from "@/lib/event-schema";
-import { getTemplate } from "@/templates";
+import { parseContent } from "@/templates";
 
 import prodigydanDaniella from "@/content/events/prodigydan-daniella.json";
 import amaraTobi from "@/content/events/amara-tobi.json";
@@ -12,8 +12,7 @@ const rawEvents: unknown[] = [prodigydanDaniella, amaraTobi];
 
 function validate(raw: unknown): EventConfig {
   const event = eventSchema.parse(raw);
-  const template = getTemplate(event.template.id);
-  const content = template.contentSchema.parse(event.content) as Record<string, unknown>;
+  const content = parseContent(event.template.id, event.content);
   return { ...event, content };
 }
 

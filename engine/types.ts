@@ -23,9 +23,26 @@ export type TemplateSceneProps<Content = unknown> = {
   tier: Exclude<QualityTier, "none">;
 };
 
+/**
+ * A template's envelope artwork, shown as an HTML layer over the scene.
+ * The artwork carries no text: names and the monogram are added from data.
+ */
+export type EnvelopeArt = {
+  src: string;
+  width: number;
+  height: number;
+  /** Ink colour for text printed on the envelope. */
+  ink: string;
+  /** Vertical centre of the text block and of the seal, as fractions of the height. */
+  textAt: number;
+  sealAt: number;
+};
+
 /** Client-side half of a template: its scene and its camera stops. */
 export type ClientTemplate<Content = unknown> = {
   Scene: ComponentType<TemplateSceneProps<Content>>;
+  /** HTML envelope; templates without one draw their envelope in the scene. */
+  envelope?: EnvelopeArt;
   /**
    * Named stops: "envelope", "room", "story-1"…"story-4", "card".
    * Templates must define all of these; story stops beyond the event's story count are unused.

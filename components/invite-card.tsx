@@ -4,7 +4,7 @@ import {
   formatEventTime,
   formatPlainDate,
 } from "@/lib/format";
-import type { EmeraldSalonContent } from "@/templates/emerald-salon/schema";
+import type { SharedContent } from "@/templates/shared-schema";
 
 /** Copy that depends on the event type, so new types only add a line here. */
 const invitationLine: Record<EventConfig["type"], string> = {
@@ -13,7 +13,7 @@ const invitationLine: Record<EventConfig["type"], string> = {
 
 type Props = {
   event: EventConfig;
-  content: EmeraldSalonContent;
+  content: SharedContent;
 };
 
 /**

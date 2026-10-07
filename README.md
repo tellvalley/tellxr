@@ -8,7 +8,7 @@ Technical spec: [`docs/TECHNICAL.md`](docs/TECHNICAL.md).
 
 ## Status
 
-Prototype. **M1 Foundations** and **M2 Engine skeleton** done: the invite plays as a 3D journey (envelope → room → story → card) with placeholder shapes, entirely driven by event config. Real Emerald Salon art arrives in M3.
+Prototype. **M1–M3** done: invites play as a 3D journey (envelope → stage → story → card), driven entirely by event config. Two templates: **Spotlight Stage** (real artwork) and **Emerald Salon** (placeholder shapes).
 
 Sample invites:
 
@@ -26,6 +26,10 @@ npm run dev
 
 Open http://localhost:3000.
 
+## Update artwork
+
+Put the original PNG exports in `assets-src/` (same names as in `scripts/optimize-assets.mjs`), then run `npm run assets`. Originals stay out of Git.
+
 ## Add a sample invite
 
 1. Copy `content/events/prodigydan-daniella.json` to a new file and change the details.
@@ -38,7 +42,10 @@ Open http://localhost:3000.
 | --- | --- |
 | `app/` | Routes: guest page `/e/[slug]`, API `/api/events/[slug]` |
 | `components/` | HTML UI: invite card, story panels |
-| `templates/emerald-salon/` | First template: manifest and content schema (scene arrives in M3) |
+| `engine/` | Shared 3D runtime: stages, camera rig, envelope, overlays, quality tiers |
+| `templates/<id>/` | One folder per template: manifest, content schema, scene, layout |
+| `public/` | Optimised images: seals, template art, sample event media |
+| `scripts/` | `npm run assets`: compress design exports from `assets-src/` |
 | `content/events/` | Sample event configs |
 | `lib/` | Event schema, data access, formatting |
 | `docs/` | Technical spec and decision records |

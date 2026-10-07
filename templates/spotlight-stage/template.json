@@ -1,0 +1,8 @@
+{
+  "id": "spotlight-stage",
+  "name": "Spotlight Stage",
+  "version": 1,
+  "eventTypes": ["wedding"],
+  "description": "The couple stands centre stage under warm spotlights, framed by tropical plants. A 2.5D scene: photographic layers at different depths give real parallax as the camera moves.",
+  "cameraStops": ["envelope", "room", "story-1", "story-2", "story-3", "story-4", "card"]
+}

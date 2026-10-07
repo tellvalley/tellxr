@@ -1,8 +1,10 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { useCallback, useMemo, useReducer, useState, useSyncExternalStore, type ReactNode } from "react";
+import { useCallback, useEffect, useMemo, useReducer, useState, useSyncExternalStore, type ReactNode } from "react";
 import { clientTemplates } from "@/templates/client";
+import type { SealId } from "@/templates/shared-schema";
+import { Envelope } from "./envelope";
 import { initialTier } from "./quality";
 import { createReducer, initialState, stopFor } from "./stages";
 import type { QualityTier, StoryPanel } from "./types";
@@ -15,6 +17,9 @@ type Props = {
   /** Template content, already validated on the server. */
   content: unknown;
   title: string;
+  /** Initials pressed into the wax seal, e.g. "P&D". */
+  monogram: string;
+  seal: SealId;
   story: StoryPanel[];
   /** The invitation card, rendered on the server as plain HTML. */
   card: ReactNode;
@@ -30,7 +35,7 @@ const noSubscribe = () => () => {};
 /** Seconds per camera flight, by destination. */
 const flight = { room: 2.4, story: 1.6, card: 1.8, envelope: 1.2 } as const;
 
-export function Experience({ templateId, content, title, story, card, fallback }: Props) {
+export function Experience({ templateId, content, title, monogram, seal, story, card, fallback }: Props) {
   const detected = useSyncExternalStore(noSubscribe, readTier, () => null);
   const [slow, setSlow] = useState(false);
   const reducedMotion = useReducedMotion();
@@ -48,6 +53,18 @@ export function Experience({ templateId, content, title, story, card, fallback }
   const onArrive = useCallback((s: string) => setArrived(s), []);
   const onSlow = useCallback(() => setSlow(true), []);
 
+  // Keeps the HTML envelope on screen while it animates away after opening.
+  const [envelopeLeaving, setEnvelopeLeaving] = useState(false);
+  useEffect(() => {
+    if (!envelopeLeaving) return;
+    const t = setTimeout(() => setEnvelopeLeaving(false), 700);
+    return () => clearTimeout(t);
+  }, [envelopeLeaving]);
+  const openEnvelope = useCallback(() => {
+    setEnvelopeLeaving(true);
+    dispatch({ type: "open" });
+  }, []);
+
   // Server render and first client pass: nothing decided yet.
   if (detected === null) return <Loader title={title} />;
   if (detected === "none" || !template) return <>{fallback}</>;
@@ -55,12 +72,19 @@ export function Experience({ templateId, content, title, story, card, fallback }
   const tier = slow ? "low" : detected;
   const flightSeconds = reducedMotion ? 0 : flight[state.stage];
   const showCard = state.stage === "card";
+  const envelopeArt = template.envelope;
+  const atEnvelope = state.stage === "envelope";
+  const sceneFilter = showCard
+    ? "blur(6px) brightness(0.55)"
+    : envelopeArt && atEnvelope
+      ? "blur(3px) brightness(0.45)"
+      : "none";
 
   return (
     <div className="fixed inset-0 overflow-hidden bg-event-bg">
       <div
         className="absolute inset-0 transition-[filter] duration-700"
-        style={{ filter: showCard ? "blur(6px) brightness(0.55)" : "none" }}
+        style={{ filter: sceneFilter }}
       >
         <SceneCanvas
           template={template}
@@ -71,16 +95,29 @@ export function Experience({ templateId, content, title, story, card, fallback }
           stop={stop}
           tier={tier}
           flightSeconds={flightSeconds}
-          paused={showCard && atStop}
+          paused={atStop && (showCard || Boolean(envelopeArt && atEnvelope))}
           onReady={onReady}
           onArrive={onArrive}
           onSlow={onSlow}
         />
       </div>
 
-      {!ready ? <Loader title={title} /> : null}
+      {/* An HTML envelope shows at once; the seal unlocks when the scene is ready. */}
+      {envelopeArt && (atEnvelope || envelopeLeaving) ? (
+        <Envelope
+          art={envelopeArt}
+          seal={seal}
+          monogram={monogram}
+          title={title}
+          ready={ready}
+          opening={!atEnvelope}
+          onOpen={openEnvelope}
+        />
+      ) : null}
 
-      {ready && state.stage === "envelope" ? (
+      {!ready && !envelopeArt ? <Loader title={title} /> : null}
+
+      {ready && !envelopeArt && state.stage === "envelope" ? (
         <Panel visible={atStop} className="justify-end pb-[18dvh]">
           <p className="font-sans text-[11px] font-medium uppercase tracking-[0.32em] text-white/75">
             You&rsquo;re invited
@@ -196,7 +233,7 @@ function TextButton({ onClick, children }: { onClick: () => void; children: Reac
     <button
       type="button"
       onClick={onClick}
-      className="min-h-11 px-2 font-sans text-[13px] font-medium tracking-[0.04em] text-white/80 underline-offset-4 hover:underline"
+      className="min-h-11 px-2 font-sans text-[13px] font-medium tracking-[0.04em] text-white/85 underline-offset-4 [text-shadow:0_1px_6px_rgba(0,0,0,0.8)] hover:underline"
     >
       {children}
     </button>

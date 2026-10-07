@@ -48,6 +48,11 @@ export function formatPlainDate(isoDate: string): string {
   }).format(new Date(`${isoDate}T00:00:00Z`));
 }
 
+/** Initials for the wax seal: "P&D". */
+export function monogram(event: EventConfig): string {
+  return event.hosts.map((h) => h.displayName.trim().charAt(0).toUpperCase()).join("&");
+}
+
 /** Host names joined for display: "ProdigyDan & Daniella". */
 export function hostNames(event: EventConfig): string {
   return event.hosts.map((h) => h.displayName).join(" & ");
