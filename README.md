@@ -1,36 +1,42 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Invite Platform (working title)
 
-## Getting Started
+Immersive invitations that open beautifully on any phone. Weddings first; events and artist booking later.
 
-First, run the development server:
+Full product and technical spec: [`docs/PRD.md`](docs/PRD.md).
+
+## Status
+
+Prototype, milestone **M1 Foundations** done: the guest invite page renders entirely from event config files. The 3D experience arrives in M2–M3.
+
+Sample invites:
+
+- `/e/prodigydan-daniella`: ProdigyDan & Daniella (main sample)
+- `/e/amara-tobi`: a second couple, proving a new invite needs data only
+
+## Run it locally
+
+Requires Node.js 20 or newer.
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open http://localhost:3000.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Add a sample invite
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. Copy `content/events/prodigydan-daniella.json` to a new file and change the details.
+2. Import it in `lib/events.ts` and add it to `rawEvents`.
+3. Visit `/e/<your-slug>`. If any field is invalid, the build fails with a message naming it.
 
-## Learn More
+## Project layout
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+| Path | What lives there |
+| --- | --- |
+| `app/` | Routes: guest page `/e/[slug]`, API `/api/events/[slug]` |
+| `components/` | HTML UI: invite card, story panels |
+| `templates/emerald-salon/` | First template: manifest and content schema (scene arrives in M3) |
+| `content/events/` | Sample event configs |
+| `lib/` | Event schema, data access, formatting |
+| `docs/` | PRD and decision records |

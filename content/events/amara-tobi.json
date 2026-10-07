@@ -1,0 +1,28 @@
+{
+  "slug": "amara-tobi",
+  "type": "wedding",
+  "status": "published",
+  "template": { "id": "emerald-salon", "version": 1 },
+  "hosts": [
+    { "displayName": "Amara", "role": "bride" },
+    { "displayName": "Tobi", "role": "groom" }
+  ],
+  "title": "Amara & Tobi",
+  "startsAt": "2027-02-20T14:00:00+01:00",
+  "timezone": "Africa/Lagos",
+  "venue": {
+    "name": "Second Sample Hall",
+    "address": "Wuse II, Abuja",
+    "mapUrl": ""
+  },
+  "rsvpDeadline": "2027-02-06",
+  "content": {
+    "palette": { "primary": "#E8B4B8", "background": "#2B1B2E" },
+    "story": [
+      { "title": "Campus days", "body": "Second sample story line one." },
+      { "title": "Long distance", "body": "Second sample story line two." }
+    ],
+    "dressCode": "Blush and plum",
+    "features": { "gallery": false, "registry": false }
+  }
+}
