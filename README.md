@@ -2,7 +2,9 @@
 
 Immersive invitations that open beautifully on any phone. Weddings first; events and artist booking later.
 
-Full product and technical spec: [`docs/PRD.md`](docs/PRD.md).
+Technical spec: [`docs/TECHNICAL.md`](docs/TECHNICAL.md).
+
+© Tell Valley Studios. All rights reserved; see [`LICENSE`](LICENSE).
 
 ## Status
 
@@ -39,4 +41,4 @@ Open http://localhost:3000.
 | `templates/emerald-salon/` | First template: manifest and content schema (scene arrives in M3) |
 | `content/events/` | Sample event configs |
 | `lib/` | Event schema, data access, formatting |
-| `docs/` | PRD and decision records |
+| `docs/` | Technical spec and decision records |

@@ -1,6 +1,8 @@
 # TellXR — working rules for Claude
 
-Read `docs/PRD.md` before starting a milestone. It is the source of truth for scope.
+Read `docs/TECHNICAL.md` before starting a milestone. It is the source of truth for scope.
+
+**This repository is public.** Never commit secrets, API keys, `.env` files or real guest/host data. Keep product strategy, pricing, roadmap beyond the prototype and competitor notes out of the repo; they live in the private PRD.
 @AGENTS.md
 
 ## Product rules (never break these)
@@ -31,4 +33,5 @@ Read `docs/PRD.md` before starting a milestone. It is the source of truth for sc
 - One milestone feature per branch and pull request; keep commits small.
 - Before opening a PR: `npx tsc --noEmit`, `npm run lint`, `npm run build`, and a phone-size screenshot of any changed page.
 - Record hard-to-undo decisions in `docs/decisions/NNNN-title.md`.
-- When scope changes, update `docs/PRD.md` and the living doc together.
+- When scope changes, update `docs/TECHNICAL.md` here and the private PRD together.
+- Secrets go only in Vercel environment variables (and a local, git-ignored `.env.local`).
