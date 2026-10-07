@@ -188,7 +188,7 @@ CLAUDE.md                     conventions Claude follows in every session
 Six milestones take the prototype from an empty repo to a shareable invite; each ends with a preview link tested on a phone.
 
 - [x] **M1 Foundations:** repo, Next.js app, `CLAUDE.md`, technical spec, sample config and its schema, Vercel deploy.
-- [ ] **M2 Engine skeleton:** stage machine and camera rig flying between placeholder stops; HTML overlay; quality tiers.
+- [x] **M2 Engine skeleton:** stage machine and camera rig flying between placeholder stops; HTML overlay; quality tiers.
 - [ ] **M3 Emerald Salon v1:** envelope, 2.5D room, couple cutout, glowing names, story panels, invite card, all from ProdigyDan & Daniella's config.
 - [ ] **M4 Guest features:** personal tokens and greeting, music with mute, add to calendar, directions, link-preview image.
 - [ ] **M5 RSVP:** database, RSVP form and API, return-visit state, rate limiting.
