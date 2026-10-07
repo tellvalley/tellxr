@@ -2,10 +2,19 @@
   "slug": "prodigydan-daniella",
   "type": "wedding",
   "status": "published",
-  "template": { "id": "emerald-salon", "version": 1 },
+  "template": {
+    "id": "spotlight-stage",
+    "version": 1
+  },
   "hosts": [
-    { "displayName": "ProdigyDan", "role": "groom" },
-    { "displayName": "Daniella", "role": "bride" }
+    {
+      "displayName": "ProdigyDan",
+      "role": "groom"
+    },
+    {
+      "displayName": "Daniella",
+      "role": "bride"
+    }
   ],
   "title": "ProdigyDan & Daniella",
   "startsAt": "2026-12-12T11:00:00+01:00",
@@ -17,13 +26,33 @@
   },
   "rsvpDeadline": "2026-11-28",
   "content": {
-    "palette": { "primary": "#C9A227", "background": "#0F2E2B" },
+    "palette": {
+      "primary": "#C9A227",
+      "background": "#140E0C"
+    },
+    "seal": "gold",
+    "couplePhoto": {
+      "src": "/content/media/prodigydan-daniella/couple.webp",
+      "framing": "full"
+    },
     "story": [
-      { "title": "How we met", "body": "Placeholder story line one." },
-      { "title": "The first date", "body": "Placeholder story line two." },
-      { "title": "The proposal", "body": "Placeholder story line three." }
+      {
+        "title": "How we met",
+        "body": "Placeholder story line one."
+      },
+      {
+        "title": "The first date",
+        "body": "Placeholder story line two."
+      },
+      {
+        "title": "The proposal",
+        "body": "Placeholder story line three."
+      }
     ],
-    "dressCode": "Emerald and gold",
-    "features": { "gallery": false, "registry": false }
+    "dressCode": "Black tie, touch of gold",
+    "features": {
+      "gallery": false,
+      "registry": false
+    }
   }
 }

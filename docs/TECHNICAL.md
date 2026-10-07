@@ -97,7 +97,8 @@ A template is a scene plus a contract: it declares the slots it needs, and the e
 
 **A template folder holds**
 
-- `template.json`: id, name, version, supported event types, camera stops. Its **content schema** (which slots exist, their types, limits and defaults, such as `story` up to 4 panels of 140 characters, `palette.primary`) lives beside it in `schema.ts`.
+- `template.json`: id, name, version, supported event types, camera stops.
+- `layout.ts` (or `stops.ts`): camera stops, layer positions and envelope art. Its **content schema** (which slots exist, their types, limits and defaults, such as `story` up to 4 panels of 140 characters, `palette.primary`) lives beside it in `schema.ts`.
 - `scene.tsx`: the 3D scene. It receives validated content and a quality tier, and exposes named **camera stops** (`envelope`, `room`, `story-1`…`story-4`, `card`).
 - `assets/`: models, textures and default images, already compressed.
 - `preview.webp`: the thumbnail for the template gallery.
@@ -116,7 +117,20 @@ A template is a scene plus a contract: it declares the slots it needs, and the e
 - Positions and scales live in the template, not in event data. Hosts choose from options the template offers (for example, photo framing: full, half, close).
 - A published event pins `template_version`, so a template update never changes an invite that guests have already seen.
 
-**First template:** *Emerald Salon*, a dark green panelled room with warm lamps and a gold frame. It starts as a 2.5D room (layered images at different depths) and can later be upgraded to full 3D models without changing its content schema.
+**Templates so far**
+
+| Template | Look | Build | Used by |
+| --- | --- | --- | --- |
+| `spotlight-stage` | The couple centre stage under warm spotlights, framed by tropical plants; watercolour envelope | 2.5D: photographic layers (backdrop, couple cut-out, two plants) at different depths for real parallax | ProdigyDan & Daniella |
+| `emerald-salon` | Dark green panelled room, lamp, gold frame | Placeholder 3D shapes, procedural; awaiting art | Amara & Tobi |
+
+**Shared by every template**
+
+- Content schema in `templates/shared-schema.ts`; a template extends it (Spotlight Stage makes `couplePhoto` required).
+- Six wax seal styles in `public/seals/` (`brick`, `scarlet`, `vermilion`, `silver`, `berry`, `gold`), chosen per event with `content.seal`. The monogram is the hosts' initials, pressed in from data.
+- A template may supply envelope art (`EnvelopeArt`); the engine then shows an HTML envelope with the names, seal and monogram, which appears instantly while the scene loads behind it.
+
+**Asset pipeline:** design exports go in the git-ignored `assets-src/` folder; `npm run assets` converts them to WebP in `public/` and fails if any image is over 300 KB.
 
 ## Routes and API
 
@@ -189,7 +203,7 @@ Six milestones take the prototype from an empty repo to a shareable invite; each
 
 - [x] **M1 Foundations:** repo, Next.js app, `CLAUDE.md`, technical spec, sample config and its schema, Vercel deploy.
 - [x] **M2 Engine skeleton:** stage machine and camera rig flying between placeholder stops; HTML overlay; quality tiers.
-- [ ] **M3 Emerald Salon v1:** envelope, 2.5D room, couple cutout, glowing names, story panels, invite card, all from ProdigyDan & Daniella's config.
+- [x] **M3 First real template:** Spotlight Stage from the Figma assets (envelope, six wax seals with monogram, stage backdrop, couple cut-out, plants), all from ProdigyDan & Daniella's config. Emerald Salon art still to come.
 - [ ] **M4 Guest features:** personal tokens and greeting, music with mute, add to calendar, directions, link-preview image.
 - [ ] **M5 RSVP:** database, RSVP form and API, return-visit state, rate limiting.
 - [ ] **M6 Hardening:** performance budget met, 2D fallback, reduced motion, second sample config, real-phone test pass.

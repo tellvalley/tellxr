@@ -1,7 +1,7 @@
 "use client";
 
 import { Canvas, useFrame } from "@react-three/fiber";
-import { useRef } from "react";
+import { Suspense, useEffect, useRef } from "react";
 import { CameraRig } from "./camera-rig";
 import { dprForTier } from "./quality";
 import type { ClientTemplate, Stage } from "./types";
@@ -45,20 +45,30 @@ export default function SceneCanvas({
       frameloop={paused ? "demand" : "always"}
       camera={{ fov: 50, near: 0.1, far: 40, position: stops.envelope.position }}
       gl={{ antialias: tier === "high", powerPreference: "high-performance" }}
-      onCreated={() => onReady()}
       aria-hidden
     >
       <CameraRig stops={stops} active={stop} duration={flightSeconds} onArrive={onArrive} />
-      <Scene
-        content={content}
-        stage={stage}
-        storyIndex={storyIndex}
-        storyCount={storyCount}
-        tier={tier}
-      />
+      {/* Ready fires only after the scene's textures have loaded (Suspense resolves). */}
+      <Suspense fallback={null}>
+        <Scene
+          content={content}
+          stage={stage}
+          storyIndex={storyIndex}
+          storyCount={storyCount}
+          tier={tier}
+        />
+        <ReadySignal onReady={onReady} />
+      </Suspense>
       {tier === "high" ? <FrameRateMonitor onSlow={onSlow} /> : null}
     </Canvas>
   );
+}
+
+function ReadySignal({ onReady }: { onReady: () => void }) {
+  useEffect(() => {
+    onReady();
+  }, [onReady]);
+  return null;
 }
 
 /**

@@ -6,6 +6,10 @@ import { useEffect, useRef } from "react";
 import { Vector3 } from "three";
 import type { CameraStop } from "./types";
 
+// Keep flights on real time: by default GSAP stretches time after slow frames,
+// which on a struggling phone makes a 2 s flight take much longer.
+gsap.ticker.lagSmoothing(0);
+
 type Props = {
   stops: Record<string, CameraStop>;
   active: string;

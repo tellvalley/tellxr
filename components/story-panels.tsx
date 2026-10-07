@@ -1,10 +1,10 @@
-import type { EmeraldSalonContent } from "@/templates/emerald-salon/schema";
+import type { SharedContent } from "@/templates/shared-schema";
 
 /**
  * Story panels as HTML. In M3 these become panels placed in the 3D room;
  * the same text stays available here for screen readers and the 2D fallback.
  */
-export function StoryPanels({ story }: { story: EmeraldSalonContent["story"] }) {
+export function StoryPanels({ story }: { story: SharedContent["story"] }) {
   if (story.length === 0) return null;
 
   return (
