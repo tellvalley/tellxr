@@ -4,8 +4,8 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: {
-    default: "Invite Platform",
-    template: "%s · Invite Platform",
+    default: "TellXR",
+    template: "%s · TellXR",
   },
   description: "Immersive invitations that open beautifully on any phone.",
 };

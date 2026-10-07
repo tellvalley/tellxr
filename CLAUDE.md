@@ -1,4 +1,4 @@
-# Invite Platform — working rules for Claude
+# TellXR — working rules for Claude
 
 Read `docs/PRD.md` before starting a milestone. It is the source of truth for scope.
 @AGENTS.md

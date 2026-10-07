@@ -12,7 +12,7 @@ export default function Home() {
         Prototype
       </p>
       <h1 className="mt-3 font-serif text-4xl font-semibold leading-tight">
-        Invite Platform
+        TellXR
       </h1>
       <p className="mt-3 font-serif text-lg text-foreground/75">
         Immersive invitations that open beautifully on any phone. Sample invites:

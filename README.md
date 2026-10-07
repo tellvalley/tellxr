@@ -1,4 +1,4 @@
-# Invite Platform (working title)
+# TellXR
 
 Immersive invitations that open beautifully on any phone. Weddings first; events and artist booking later.
 
