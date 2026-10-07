@@ -8,7 +8,7 @@ Technical spec: [`docs/TECHNICAL.md`](docs/TECHNICAL.md).
 
 ## Status
 
-Prototype, milestone **M1 Foundations** done: the guest invite page renders entirely from event config files. The 3D experience arrives in M2–M3.
+Prototype. **M1 Foundations** and **M2 Engine skeleton** done: the invite plays as a 3D journey (envelope → room → story → card) with placeholder shapes, entirely driven by event config. Real Emerald Salon art arrives in M3.
 
 Sample invites:
 
