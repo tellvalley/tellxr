@@ -2,8 +2,17 @@
   "id": "emerald-salon",
   "name": "Emerald Salon",
   "version": 1,
-  "eventTypes": ["wedding"],
-  "description": "A dark green panelled room with warm lamps and a gold frame. Starts as a 2.5D layered room; can be upgraded to full 3D without changing its content schema.",
-  "cameraStops": ["envelope", "room", "story-1", "story-2", "story-3", "story-4", "card"],
-  "contentSchema": "./schema.ts"
+  "eventTypes": [
+    "wedding"
+  ],
+  "description": "A dark green panelled room with warm lamps and a gold frame. The couple's photo cut-out and photographic plants stand in a real 3D room; watercolour envelope with a wax seal.",
+  "cameraStops": [
+    "envelope",
+    "room",
+    "story-1",
+    "story-2",
+    "story-3",
+    "story-4",
+    "card"
+  ]
 }

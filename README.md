@@ -8,7 +8,7 @@ Technical spec: [`docs/TECHNICAL.md`](docs/TECHNICAL.md).
 
 ## Status
 
-Prototype. **M1–M3** done: invites play as a 3D journey (envelope → stage → story → card), driven entirely by event config. Two templates: **Spotlight Stage** (real artwork) and **Emerald Salon** (placeholder shapes).
+Prototype. **M1–M3** done: invites play as a 3D journey (envelope → room → story → card), driven entirely by event config, with real artwork: watercolour envelope, wax seals, the couple's photo and plants in the Emerald Salon room.
 
 Sample invites:
 

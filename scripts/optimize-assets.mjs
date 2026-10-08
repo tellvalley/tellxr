@@ -24,11 +24,10 @@ const jobs = [
     trim: true,
   })),
 
-  // Spotlight Stage template.
-  { src: "spotlight-stage/envelope.png", out: "templates/spotlight-stage/envelope.webp", width: 900, quality: 80 },
-  { src: "spotlight-stage/backdrop.png", out: "templates/spotlight-stage/backdrop.webp", width: 2400, quality: 82 },
-  { src: "spotlight-stage/plant-left.png", out: "templates/spotlight-stage/plant-left.webp", width: 1100, quality: 76, trim: true },
-  { src: "spotlight-stage/plant-right.png", out: "templates/spotlight-stage/plant-right.webp", width: 1200, quality: 74, trim: true },
+  // Emerald Salon template: envelope art and photographic plants for the 3D room.
+  { src: "emerald-salon/envelope.png", out: "templates/emerald-salon/envelope.webp", width: 900, quality: 80 },
+  { src: "emerald-salon/plant-left.png", out: "templates/emerald-salon/plant-left.webp", width: 1100, quality: 76, trim: true },
+  { src: "emerald-salon/plant-right.png", out: "templates/emerald-salon/plant-right.webp", width: 1200, quality: 74, trim: true },
 
   // Sample event media (an event's own photo, not a template asset).
   { src: "events/prodigydan-daniella/couple.png", out: "content/media/prodigydan-daniella/couple.webp", width: 1100, quality: 80, trim: true, edge: "height" },
