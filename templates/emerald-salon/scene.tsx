@@ -1,9 +1,19 @@
 "use client";
 
-import { useFrame } from "@react-three/fiber";
+import { useFrame, useLoader } from "@react-three/fiber";
 import { useMemo, useRef } from "react";
-import { Color, MathUtils, Object3D, type Group, type MeshStandardMaterial } from "three";
-import type { TemplateSceneProps } from "@/engine/types";
+import {
+  CanvasTexture,
+  Color,
+  MathUtils,
+  Object3D,
+  SRGBColorSpace,
+  TextureLoader,
+  type Mesh,
+  type MeshStandardMaterial,
+  type Texture,
+} from "three";
+import type { TemplateSceneProps, Vec3 } from "@/engine/types";
 import type { EmeraldSalonContent } from "./schema";
 import { layout } from "./stops";
 
@@ -68,14 +78,18 @@ export function EmeraldSalonScene({
       <Room colors={colors} />
       <Lamp colors={colors} />
       <GoldFrame colors={colors} />
-      <CouplePlaceholder colors={colors} />
+      {content.couplePhoto ? (
+        <CouplePhoto src={content.couplePhoto.src} />
+      ) : (
+        <CouplePlaceholder colors={colors} />
+      )}
+      <Plants />
       <StoryBoards
         colors={colors}
         count={storyCount}
         active={stage === "story" ? storyIndex : -1}
       />
       <Table colors={colors} />
-      <Envelope colors={colors} opened={stage !== "envelope"} />
     </>
   );
 }
@@ -159,7 +173,7 @@ function GoldFrame({ colors }: { colors: Colors }) {
   );
 }
 
-/** Two standing silhouettes where the couple photo cut-out goes in M3. */
+/** Two standing silhouettes, used when an event has no couple photo yet. */
 function CouplePlaceholder({ colors }: { colors: Colors }) {
   const [x, , z] = layout.couple;
   return (
@@ -255,33 +269,127 @@ function Table({ colors }: { colors: Colors }) {
   );
 }
 
-/** Sealed envelope; drops away once opened. */
-function Envelope({ colors, opened }: { colors: Colors; opened: boolean }) {
-  const group = useRef<Group>(null);
-  useFrame((_, dt) => {
-    const g = group.current;
-    if (!g) return;
-    g.position.y = MathUtils.damp(g.position.y, opened ? layout.envelope[1] - 3 : layout.envelope[1], 3, dt);
-    g.rotation.x = MathUtils.damp(g.rotation.x, opened ? -0.9 : 0, 3, dt);
-    g.visible = g.position.y > layout.envelope[1] - 2.9;
-  });
-
+/** The event's couple cut-out, lit by the room so it sits in the scene. */
+function CouplePhoto({ src }: { src: string }) {
+  const texture = usePhoto(src);
+  const image = texture.image as { width: number; height: number };
+  const height = layout.coupleHeight;
+  const width = height * (image.width / image.height);
+  const [x, , z] = layout.couple;
   return (
-    <group ref={group} position={layout.envelope}>
-      <mesh>
-        <boxGeometry args={[0.95, 1.45, 0.02]} />
-        <meshStandardMaterial color={colors.bg} roughness={0.85} />
-      </mesh>
-      {/* Ribbon */}
-      <mesh position={[0, 0, 0.012]}>
-        <planeGeometry args={[0.1, 1.45]} />
-        <meshStandardMaterial color={colors.primary} metalness={0.3} roughness={0.4} />
-      </mesh>
-      {/* Wax seal */}
-      <mesh position={[0, 0, 0.02]} rotation-x={Math.PI / 2}>
-        <cylinderGeometry args={[0.1, 0.1, 0.02, 32]} />
-        <meshStandardMaterial color={colors.primary} metalness={0.3} roughness={0.5} />
-      </mesh>
-    </group>
+    <>
+      <FloorShadow position={[x, 0.006, z + 0.05]} width={width * 1.2} />
+      <PhotoCutout texture={texture} size={[width, height]} position={[x, height / 2, z]} faceCamera />
+    </>
+  );
+}
+
+function Plants() {
+  const [left, right] = useLoader(PhotoLoader, [layout.plants[0].src, layout.plants[2].src]);
+  return (
+    <>
+      {layout.plants.map((p, i) => (
+        <PhotoCutout
+          key={i}
+          texture={p.src === layout.plants[0].src ? left : right}
+          size={p.size}
+          position={p.position}
+          mirror={p.mirror}
+          // Corner plants turn to the camera; the foreground plant stays a fixed frame.
+          faceCamera={i < 2}
+        />
+      ))}
+    </>
+  );
+}
+
+/** Loads photos as sRGB colour (otherwise they look washed out). */
+class PhotoLoader extends TextureLoader {
+  load(
+    url: string,
+    onLoad?: (texture: Texture<HTMLImageElement>) => void,
+    onProgress?: (event: ProgressEvent) => void,
+    onError?: (err: unknown) => void,
+  ): Texture<HTMLImageElement> {
+    return super.load(
+      url,
+      (texture) => {
+        texture.colorSpace = SRGBColorSpace;
+        texture.anisotropy = 4;
+        onLoad?.(texture);
+      },
+      onProgress,
+      onError,
+    );
+  }
+}
+
+function usePhoto(src: string): Texture {
+  return useLoader(PhotoLoader, src);
+}
+
+/**
+ * A photo with a transparent background as a standing plane. Lit by the room
+ * (with a little self-light so it never goes muddy). `faceCamera` turns it
+ * around its vertical axis towards the viewer, so it never looks paper-thin.
+ */
+function PhotoCutout({
+  texture,
+  size,
+  position,
+  mirror = false,
+  faceCamera = false,
+}: {
+  texture: Texture;
+  size: [number, number];
+  position: Vec3;
+  mirror?: boolean;
+  faceCamera?: boolean;
+}) {
+  const mesh = useRef<Mesh>(null);
+  useFrame(({ camera }) => {
+    if (!faceCamera || !mesh.current) return;
+    const m = mesh.current;
+    m.rotation.y = Math.atan2(camera.position.x - m.position.x, camera.position.z - m.position.z);
+  });
+  return (
+    <mesh ref={mesh} position={position} scale={[mirror ? -1 : 1, 1, 1]}>
+      <planeGeometry args={size} />
+      <meshStandardMaterial
+        map={texture}
+        emissiveMap={texture}
+        emissive="#ffffff"
+        emissiveIntensity={0.45}
+        roughness={1}
+        metalness={0}
+        transparent
+        alphaTest={0.05}
+        side={2}
+      />
+    </mesh>
+  );
+}
+
+/** A soft oval shadow so the couple stands on the floor instead of floating. */
+function FloorShadow({ position, width }: { position: Vec3; width: number }) {
+  const texture = useMemo(() => {
+    const size = 128;
+    const canvas = document.createElement("canvas");
+    canvas.width = canvas.height = size;
+    const ctx = canvas.getContext("2d");
+    if (ctx) {
+      const g = ctx.createRadialGradient(size / 2, size / 2, 0, size / 2, size / 2, size / 2);
+      g.addColorStop(0, "rgba(0,0,0,0.6)");
+      g.addColorStop(1, "rgba(0,0,0,0)");
+      ctx.fillStyle = g;
+      ctx.fillRect(0, 0, size, size);
+    }
+    return new CanvasTexture(canvas);
+  }, []);
+  return (
+    <mesh position={position} rotation-x={-Math.PI / 2}>
+      <planeGeometry args={[width, width * 0.4]} />
+      <meshBasicMaterial map={texture} transparent depthWrite={false} />
+    </mesh>
   );
 }

@@ -3,7 +3,7 @@
   "type": "wedding",
   "status": "published",
   "template": {
-    "id": "spotlight-stage",
+    "id": "emerald-salon",
     "version": 1
   },
   "hosts": [
@@ -28,7 +28,7 @@
   "content": {
     "palette": {
       "primary": "#C9A227",
-      "background": "#140E0C"
+      "background": "#0F2E2B"
     },
     "seal": "gold",
     "couplePhoto": {

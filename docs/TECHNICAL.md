@@ -117,16 +117,11 @@ A template is a scene plus a contract: it declares the slots it needs, and the e
 - Positions and scales live in the template, not in event data. Hosts choose from options the template offers (for example, photo framing: full, half, close).
 - A published event pins `template_version`, so a template update never changes an invite that guests have already seen.
 
-**Templates so far**
-
-| Template | Look | Build | Used by |
-| --- | --- | --- | --- |
-| `spotlight-stage` | The couple centre stage under warm spotlights, framed by tropical plants; watercolour envelope | 2.5D: photographic layers (backdrop, couple cut-out, two plants) at different depths for real parallax | ProdigyDan & Daniella |
-| `emerald-salon` | Dark green panelled room, lamp, gold frame | Placeholder 3D shapes, procedural; awaiting art | Amara & Tobi |
+**Template so far:** `emerald-salon`, a dark green panelled 3D room (lamp, gold frame, story boards, table) with photographic cut-outs standing in it: the event's couple photo (or two silhouettes if none) and potted plants, lit by the room. Watercolour envelope art with a wax seal. Used by both sample events.
 
 **Shared by every template**
 
-- Content schema in `templates/shared-schema.ts`; a template extends it (Spotlight Stage makes `couplePhoto` required).
+- Content schema in `templates/shared-schema.ts`; a template extends it (and may make optional slots such as `couplePhoto` required).
 - Six wax seal styles in `public/seals/` (`brick`, `scarlet`, `vermilion`, `silver`, `berry`, `gold`), chosen per event with `content.seal`. The monogram is the hosts' initials, pressed in from data.
 - A template may supply envelope art (`EnvelopeArt`); the engine then shows an HTML envelope with the names, seal and monogram, which appears instantly while the scene loads behind it.
 
@@ -203,7 +198,7 @@ Six milestones take the prototype from an empty repo to a shareable invite; each
 
 - [x] **M1 Foundations:** repo, Next.js app, `CLAUDE.md`, technical spec, sample config and its schema, Vercel deploy.
 - [x] **M2 Engine skeleton:** stage machine and camera rig flying between placeholder stops; HTML overlay; quality tiers.
-- [x] **M3 First real template:** Spotlight Stage from the Figma assets (envelope, six wax seals with monogram, stage backdrop, couple cut-out, plants), all from ProdigyDan & Daniella's config. Emerald Salon art still to come.
+- [x] **M3 Real artwork in the room:** Emerald Salon with the Figma assets (watercolour envelope, six wax seals with monogram, couple cut-out, plants), all from ProdigyDan & Daniella's config. Story board art still to come.
 - [ ] **M4 Guest features:** personal tokens and greeting, music with mute, add to calendar, directions, link-preview image.
 - [ ] **M5 RSVP:** database, RSVP form and API, return-visit state, rate limiting.
 - [ ] **M6 Hardening:** performance budget met, 2D fallback, reduced motion, second sample config, real-phone test pass.

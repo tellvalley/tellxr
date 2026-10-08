@@ -2,8 +2,6 @@ import type { z } from "zod";
 import emeraldSalonManifest from "./emerald-salon/template.json";
 import { emeraldSalonContentSchema } from "./emerald-salon/schema";
 import type { SharedContent } from "./shared-schema";
-import spotlightStageManifest from "./spotlight-stage/template.json";
-import { spotlightStageContentSchema } from "./spotlight-stage/schema";
 
 export type TemplateManifest = {
   id: string;
@@ -25,10 +23,6 @@ export const templates: Record<string, TemplateEntry> = {
   "emerald-salon": {
     manifest: emeraldSalonManifest,
     contentSchema: emeraldSalonContentSchema,
-  },
-  "spotlight-stage": {
-    manifest: spotlightStageManifest,
-    contentSchema: spotlightStageContentSchema,
   },
 };
 
